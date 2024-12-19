@@ -54,10 +54,10 @@ class ProcessController extends BaseController
                 ),
                 default => $resource->creationFields($request),
             };
-
-            $rules = $fields
-                ->firstWhere('attribute', $attribute)
-                ->getCreationRules($request);
+            $field = $fields
+                ->firstWhere('attribute', $attribute);
+            $rules = $field ? $field
+                ->getCreationRules($request) : [];
 
             $this->validate($request, Arr::only($rules, $attribute));
 
